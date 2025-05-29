@@ -1,26 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Manager</title>
-</head>
-<body>
-    <h1>Task Manager</h1>
-    <a href="{% url 'task-add' %}">➕ Add New Task</a>
-    <ul>
-        {% for task in object_list %}
-            <li>
-                <strong>{{ task.title }}</strong> – {% if task.completed %}✅{% else %}❌{% endif %}
-                <small>
-                    [<a href="{% url 'task-edit' task.pk %}">Edit</a> |
-                     <a href="{% url 'task-delete' task.pk %}">Delete</a>]
-                </small>
-            </li>
-        {% empty %}
-            <li>No tasks available.</li>
-        {% endfor %}
-    </ul>
-</body>
+{% extends "base.html" %}
+{% block content %}
 
-</html>
+<a class="btn btn-success mb-3" href="{% url 'task-add' %}">➕ Add Task</a>
+
+<ul class="list-group">
+    {% for task in object_list %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span>
+            <strong>{{ task.title }}</strong>
+            {% if task.completed %}
+                <span class="badge bg-success ms-2">Completed</span>
+            {% else %}
+                <span class="badge bg-warning text-dark ms-2">Pending</span>
+            {% endif %}
+        </span>
+        <span>
+            <a href="{% url 'task-edit' task.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+            <a href="{% url 'task-delete' task.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+        </span>
+    </li>
+    {% empty %}
+    <li class="list-group-item">No tasks found.</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
