@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+</head>
+<body>
+    <h1>Task Manager</h1>
+    <a href="{% url 'task-add' %}">➕ Add New Task</a>
+    <ul>
+        {% for task in object_list %}
+            <li>
+                <strong>{{ task.title }}</strong> – {% if task.completed %}✅{% else %}❌{% endif %}
+                <small>
+                    [<a href="{% url 'task-edit' task.pk %}">Edit</a> |
+                     <a href="{% url 'task-delete' task.pk %}">Delete</a>]
+                </small>
+            </li>
+        {% empty %}
+            <li>No tasks available.</li>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>
